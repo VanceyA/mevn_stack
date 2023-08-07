@@ -26,8 +26,8 @@ module.exports = class API {
     // create a post
     static async createPost(req, res) {
         const post = req.body;
-        const imageName = req.file.filename;
-        post.image = imageName;
+        const imagename = req.file;
+        post.image = imagename;
         try {
             await Post.create(post);
             res.status(201).json({ message: "Post created successfully!" });
@@ -66,13 +66,13 @@ module.exports = class API {
         const id = req.params.id;
         try {
             const result = await Post.findByIdAndDelete(id);
-            if (result.image != "") {
-                try {
-                    fs.unlinkSync("./uploads/" + result.image);
-                } catch (err) {
-                    console.log(err);
-                }
-            }
+            // if (result.image != "") {
+            //     try {
+            //         fs.unlinkSync("./uploads/" + result.image);
+            //     } catch (err) {
+            //         console.log(err);
+            //     }
+            // }
             res.status(200).json({ message: "Post deleted successfully!"});
         } catch (err) {
             res.status(404).json({ message: err.message });
